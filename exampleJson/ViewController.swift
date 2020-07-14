@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    var errorVal : Bool = false
     @IBOutlet weak var label: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,14 @@ class ViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(autoRefresh), userInfo: nil, repeats: true)
     }
     
+    func errorThrow(message:String) {
+        //error?.localizedDescription user friendly hata dondurur
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertController.Style.alert)
+        let okbutton = UIAlertAction.init(title: "OK", style: UIAlertAction.Style.default, handler: nil)
+        alert.addAction(okbutton)
+        //self present, animation true, comp nil
+        self.present(alert, animated: true, completion: nil)
+    }
 
     //button ile ---------------------------------------------------------------------------------------------------------
     @IBAction func button(_ sender: Any) {
@@ -30,12 +38,7 @@ class ViewController: UIViewController {
         //with url completionhandler
         let task = session.dataTask(with: url!) { (data, response, error) in
             if error != nil {
-                //error?.localizedDescription user friendly hata dondurur
-                let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                let okbutton = UIAlertAction.init(title: "OK", style: UIAlertAction.Style.default, handler: nil)
-                alert.addAction(okbutton)
-                //self present, animation true, comp nil
-                self.present(alert, animated: true, completion: nil)
+                DispatchQueue.main.async {   self.errorThrow(message: error!.localizedDescription) }
             } else {
                 if data != nil {
                     
@@ -61,7 +64,7 @@ class ViewController: UIViewController {
                 }
             }
         }
-        //olmazsa task calismaz
+        //olmazsa task calismaz∫
         task.resume()
         
     }
@@ -76,12 +79,7 @@ class ViewController: UIViewController {
               //with url completionhandler
               let task = session.dataTask(with: url!) { (data, response, error) in
                   if error != nil {
-                      //error?.localizedDescription user friendly hata dondurur
-                      let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                      let okbutton = UIAlertAction.init(title: "OK", style: UIAlertAction.Style.default, handler: nil)
-                      alert.addAction(okbutton)
-                      //self present, animation true, comp nil
-                      self.present(alert, animated: true, completion: nil)
+                      DispatchQueue.main.async {   self.errorThrow(message: error!.localizedDescription) }
                   } else {
                       if data != nil {
                           
