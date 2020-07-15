@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     var errorVal : Bool = false
+    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
     @IBOutlet weak var label: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,16 +18,36 @@ class ViewController: UIViewController {
         label.text = "Please wait..."
         
         var timer = Timer()
+        //var timer2 = Timer()
+        // var timer3 = Timer()
+        //registerBackgroundTask()
         timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(autoRefresh), userInfo: nil, repeats: true)
+        //timer2 = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(registerBackgroundTask), userInfo: nil, repeats: true)
+        //endBackgroundTask()
     }
     
+    
+    /* @objc func registerBackgroundTask() {
+            print("before bgtask")
+           backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+            self?.endBackgroundTask()
+            print("self below")
+           }
+       }
+    
+    @objc func endBackgroundTask() {
+        print("Task end.")
+        UIApplication.shared.endBackgroundTask(backgroundTask)
+        backgroundTask = UIBackgroundTaskIdentifier.invalid
+    }
+    */
     func errorThrow(message:String) {
         //error?.localizedDescription user friendly hata dondurur
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertController.Style.alert)
         let okbutton = UIAlertAction.init(title: "OK", style: UIAlertAction.Style.default, handler: nil)
         alert.addAction(okbutton)
         //self present, animation true, comp nil
-        self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: false, completion: nil)
     }
 
     //button ile ---------------------------------------------------------------------------------------------------------
@@ -107,7 +128,7 @@ class ViewController: UIViewController {
               }
               //olmazsa task calismaz
               task.resume()
-        
+      
     }
     
 
